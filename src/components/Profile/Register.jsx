@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { toast } from "react-toastify";
 
 function Register() {
   const [username, setUsername] = useState("");
@@ -15,7 +16,10 @@ const handleRegister = async (e) => {
   e.preventDefault();
 
   if (password !== confirmPassword) {
-    alert("Passwords do not match!");
+    toast.error("Passwords do not match!",{
+      position:"top-center",
+      autoClose:2000,
+    });
     return;
   }
 
@@ -26,16 +30,24 @@ const handleRegister = async (e) => {
       body: JSON.stringify({ name: username, email, password }),
     });
 
+    // "https://snapthecode-1.onrender.com/api/auth/register"
+
     const data = await response.json();
 
     if (!response.ok) {
-      alert(data.message || "Registration failed");
+      toast.error(data.message || "Registration failed",{
+        position:"top-center",autoClose:2000,
+      });
       return;
     }
 
     //localStorage.setItem("token", data.token);
 
-    alert("Registration successful!");
+    // alert("Registration successful!");
+    toast.success("Registration successful!🎉",{
+            position:"top-center",
+            autoClose:2000,
+          });
     navigate("/login");
   } catch (err) {
     console.log(err);

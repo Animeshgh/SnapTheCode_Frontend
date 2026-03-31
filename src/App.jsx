@@ -8,7 +8,8 @@ import Profile from "./components/Profile/Profile";
 import Home from "./components/Home/Home";
 import SnippetView from "./components/Snippetview/SnippetView";
 import EditSnippet from "./pages/EditSnippet"
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
    const [searchTerm, setSearchTerm] = useState("");
@@ -16,7 +17,8 @@ function App() {
   return (
     <div>
       <Navbar setSearchTerm={setSearchTerm}/>
-      
+        {/* ✅ Add it HERE */}
+        <ToastContainer />
        <Routes>
         <Route path="/" element={<Home searchTerm={searchTerm}/>}/>
         <Route path="/add" element={<AddSnippet />} />
@@ -25,7 +27,6 @@ function App() {
         <Route path="/profile" element={<Profile/>}></Route>
         <Route path="/snippet/:id" element={<SnippetView />} />
         <Route path="/edit/:id" element={<EditSnippet />} />
-
 
 
       </Routes>

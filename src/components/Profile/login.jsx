@@ -4,6 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { toast } from "react-toastify";
 
 function Login() {
   
@@ -22,12 +23,21 @@ function Login() {
 
     // Save token to localStorage
       localStorage.setItem("token", response.data.token);
-      alert("Login Successful!");
+      // alert("Login Successful!");
+      toast.success("Login successful 🎉",{
+        position:"top-center",
+        autoClose:2000,
+      });
 
     // Redirect to Home page
      navigate("/");
   } catch (error) {
-    alert(error.response?.data?.message || "Login failed");
+    // alert(error.response?.data?.message || "Login failed");
+    toast.error(error.response?.data?.message ||"Login failed",{
+      position:"top-center",
+      autoClose:2000,
+
+    });
   }
 };
 
@@ -54,6 +64,7 @@ function Login() {
               onChange={(e)=>setEmail(e.target.value)}
             />
           </div>
+          
 
           {/* Password */}
           <div className="mb-3">

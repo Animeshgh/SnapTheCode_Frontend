@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function EditSnippet() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const languages=["JavaScript","Java","Python","C","C++"];
 
   const [title, setTitle] = useState("");
   const [language, setLanguage] = useState("");
   const [tags, setTags] = useState("");
   const [code, setCode] = useState("");
   const [description, setDescription] = useState("");
-
+  
   useEffect(() => {
     loadSnippet();
   }, []);
@@ -57,11 +59,18 @@ function EditSnippet() {
         }
       );
 
-      alert("Snippet Updated Successfully!");
+      
+      toast.success("Snippet Updated Successfully! 🎉",{
+              position:"top-center",
+              autoClose:2000,
+            });
       navigate("/");
     } catch (err) {
       console.log(err);
-      alert("Failed to update");
+      toast.error("Failed to update",{
+        position:"top-center",
+        autoClose:2000,
+      });
     }
   };
 
@@ -77,12 +86,21 @@ function EditSnippet() {
           placeholder="Snippet Title"
         />
 
-        <input
+        {/* <input
           className="form-control mt-3"
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
           placeholder="Language (e.g. JavaScript)"
-        />
+        /> */}
+
+        <select className="form-control mt-3" value={language} onChange={(e)=>{setLanguage(e.target.value)}}>
+          <option value="">Select Language</option>
+          {languages.map((lang)=>(
+            <option key={lang} value={lang}>
+              {lang}
+            </option>
+          ))}
+        </select>
 
         <input
           className="form-control mt-3"

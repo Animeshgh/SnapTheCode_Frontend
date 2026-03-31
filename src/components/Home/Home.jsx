@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Home({ searchTerm }) {
   const [snippets, setSnippets] = useState([]);
@@ -39,24 +40,88 @@ function Home({ searchTerm }) {
     );
   });
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this snippet?")) return;
+  const handleDelete = (id) => {
+  toast(
+    ({ closeToast }) => (
+      <div>
+        <p>Are you sure you want to delete?</p>
+        <button
+          onClick={() => {
+            deleteSnippet(id); // ✅ pass id here
+            closeToast();
+          }}
+          style={{ marginRight: "10px" }}
+        >
+          Yes
+        </button>
 
+        <button onClick={closeToast}>
+          No
+        </button>
+      </div>
+    ),
+    {
+      autoClose: false,
+    }
+  );
+};
+
+const deleteSnippet = async (id) => {
+  try {
     const token = localStorage.getItem("token");
 
-    try {
-      await axios.delete(`https://snapthecode-1.onrender.com/api/snippets/delete/${id}`, {
+    await axios.delete(
+      `https://snapthecode-1.onrender.com/api/snippets/delete/${id}`,
+      {
         headers: { Authorization: `Bearer ${token}` },
-      });
+      }
+    );
 
-      alert("Snippet deleted!");
+    toast.success("Deleted successfully 🗑️",{
+       position:"top-left",
+      autoClose:1000,
+    });
 
-      fetchSnippets();
-    } catch (err) {
-      console.log(err);
-      alert("Failed to delete snippet");
-    }
-  };
+    // optional: refresh UI
+    setTimeout(()=>{
+      window.location.reload();  
+    },1500);
+    // or better: update state
+  } catch (err) {
+    toast.error("Delete failed ❌",{
+      position:"top-center",
+      autoClose:2000,
+    });
+  }
+};
+
+
+  // const handleDelete = async (id) => {
+  //   if (!window.confirm("Are you sure you want to delete this snippet?")) return;
+
+  //   const token = localStorage.getItem("token");
+
+  //   try {
+  //     await axios.delete(`https://snapthecode-1.onrender.com/api/snippets/delete/${id}`, {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     });
+
+  //     toast.success("Snippet deleted!",{
+  //       position:"top-center",
+  //       autoClose:2000,
+  //     });
+
+  //     fetchSnippets();
+  //   } catch (err) {
+  //     console.log(err);
+  //     toast.error("Failed to delete snippet",{
+  //       position:"top-center",
+  //       autoClose:2000,
+  //     });
+  //   }
+  // };
+
+  // 
 
   return (
     <div className="container mt-4">

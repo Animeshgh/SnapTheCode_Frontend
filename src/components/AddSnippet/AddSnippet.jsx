@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 
 function AddSnippet() {
   const [title, setTitle] = useState("");
@@ -37,11 +39,19 @@ function AddSnippet() {
         }
       );
 
-      alert("Snippet added successfully!");
+      toast.success("Snippet added successfully!",{
+        position:"top-center",
+        autoClose:2000,
+      });
       navigate("/");
     } catch (error) {
       console.log(error);
-      alert("Failed to add snippet");
+     
+      toast.error("Failed to add snippet",{
+        position:"top-center",
+        autoClose:2000,
+      })
+      
     }
   };
 
