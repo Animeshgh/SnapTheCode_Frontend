@@ -5,6 +5,7 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 function Login() {
   
@@ -91,9 +92,9 @@ function Login() {
           {/* Register Redirect */}
           <p className="text-center">
             Don’t have an account?{" "}
-            <a href="/register" className="text-decoration-none text-primary">
+            <Link to="/register" className="text-decoration-none text-primary">
               Register here
-            </a>
+            </Link>
           </p>
         </form>
       </div>
