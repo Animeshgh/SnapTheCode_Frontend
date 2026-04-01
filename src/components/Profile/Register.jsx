@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { toast } from "react-toastify";
-
+import { Link } from "react-router-dom";
 function Register() {
   const [username, setUsername] = useState("");
 const [email, setEmail] = useState("");
@@ -134,9 +134,9 @@ const handleRegister = async (e) => {
           {/* Redirect to Login */}
           <p className="text-center">
             Already have an account?{" "}
-            <a href="/login" className="text-decoration-none text-primary">
+            <Link to="/login" className="text-decoration-none text-primary">
               Login here
-            </a>
+            </Link>
           </p>
         </form>
       </div>
